@@ -10,6 +10,7 @@ import neural_net
 from optimization_functions import*
 import csv
 import theoretical_calcs as theory
+import write_results as results
 
 print(param.num_in_sequence)
 
@@ -140,7 +141,8 @@ def compute_OutputAndGrads(X_tensor, t_tensor, model):
     return all_outputs_tensor, all_grads_tensor
 
 
-csv_file_path = 'output.csv'
+loss_file = 'output.csv'
+weights_file= 'weights.csv'
 
 initial_condition_values=[]
 integral_hjb_values = []
@@ -152,21 +154,7 @@ variance_array=[]
 
 objective_function, var= objective_fun(param.u, param.num_iterations, param.eps_big, param.rule)
 sequential_algorithm(param.eps_seq)
-rows = zip(initial_condition_values, integral_hjb_values, mean_terminal_condition_values, loss_array, variance_array, threshold)
-
-with open(csv_file_path, mode='w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['Initial Condition', 'Integral HJB', 'Mean Terminal Condition', 'Loss', 'Variance', 'Threshold'])
-    writer.writerows(rows)
-
-weights_csv_file_path = 'weights.csv'
-with open(weights_csv_file_path, mode='w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['Layer', 'Parameter', 'Weight'])
-    for i, weights in enumerate(weights_values):
-        for j, w in enumerate(weights):
-            writer.writerow([f'Layer {i}', f'Parameter {j}', w])
-
-
+results.write_loss_functions(loss_file, initial_condition_values, integral_hjb_values, mean_terminal_condition_values, loss_array, variance_array, threshold)
+results.write_weights(weights_file, weights_values)
 
 
