@@ -6,8 +6,6 @@ np.random.seed(42)
 import torch
 from torch.autograd import grad
 import torch.nn as nn
-import torch.optim as optim
-from torch.autograd import Variable
 import parameters as param
 from data_generator import*
 from helper_functions import*
