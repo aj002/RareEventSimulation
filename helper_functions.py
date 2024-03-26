@@ -1,6 +1,3 @@
-
-
-
 def indicator(x,a):
     if(x>=a):
         return 1

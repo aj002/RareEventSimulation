@@ -1,12 +1,15 @@
 import numpy as np
+import parameters as param
 
-#figure out how to include other sdes here
-grad_potential_dict = {'simple_brownian': 0}
+def grad_potential(x, rule):
+   if(rule== 'simple_brownian'):
+      return 0
+   elif(rule== 'ornstein_uhlenbeck'):
+      return param.theta_ou*x
 
 
 def generate_sde(rule, T, x_init, dim, num_trajectories, num_intervals, u, eps):
   sdes= []
-  grad_potential= grad_potential_dict[rule]
   dt= T/(num_intervals)
   mean = np.zeros(dim)
   var = np.double(dt)
@@ -16,7 +19,7 @@ def generate_sde(rule, T, x_init, dim, num_trajectories, num_intervals, u, eps):
     sde= [x_init]
     bm = np.random.normal(mean,var,int(num_intervals))
     for i in range(int(num_intervals)):
-      current_value = sde[-1] - grad_potential * dt + np.sqrt(2) * (u.detach().numpy().item() * dt) + np.sqrt(2*eps) * bm[i]
+      current_value = sde[-1] - grad_potential(sde[-1], rule) * dt + np.sqrt(2) * (u.detach().numpy().item() * dt) + np.sqrt(2*eps) * bm[i]
       sde = np.concatenate((sde, [current_value]))
     sdes.append(sde)
   return sdes

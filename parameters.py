@@ -29,5 +29,8 @@ initial_step_size = 0.01
 step_size_seq = np.full(num_in_sequence+1, initial_step_size)
 
 rule= 'simple_brownian'
+theta_ou= 1
+
+
 
 num_iterations= 10**3

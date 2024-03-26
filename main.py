@@ -50,12 +50,11 @@ def neural_approximation(u, model, eps):
         # print("Output:", output)
         # print("Grads:", grads)
         weights = [1,2,1]
-        grad_potential = grad_potential_dict[param.rule]
         time_points = np.linspace(0, param.T, param.num_intervals+1)
         
         initial_condition= torch.mean(output[:, 0])
 
-        hjb_tensor = torch.mean((grads[:, :, 1] - grad_potential * grads[:, :, 0] - ((grads[:, :, 0]) ** 2) / 2) ** 2, dim=0).detach().numpy()
+        hjb_tensor = torch.mean((grads[:, :, 1] - grad_potential(X_tensor, param.rule) * grads[:, :, 0] - ((grads[:, :, 0]) ** 2) / 2) ** 2, dim=0).detach().numpy()
         hjb_tensor = hjb_tensor.squeeze()
         integral_hjb= np.trapz(hjb_tensor, time_points)
 
