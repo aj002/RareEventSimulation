@@ -36,7 +36,7 @@ brownian_diff=1
 ou_diff=1
 cir_diff=1
 dw_diff=1
-
+mu_ou=0
 
 
 
