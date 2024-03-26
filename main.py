@@ -1,10 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import norm
-import random
 np.random.seed(42)
 import torch
-from torch.autograd import grad
 import torch.nn as nn
 import parameters as param
 from data_generator import*

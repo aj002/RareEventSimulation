@@ -30,6 +30,13 @@ step_size_seq = np.full(num_in_sequence+1, initial_step_size)
 
 rule= 'simple_brownian'
 theta_ou= 1
+theta_cir=1
+theta_dw=1
+brownian_diff=1
+ou_diff=1
+cir_diff=1
+dw_diff=1
+
 
 
 

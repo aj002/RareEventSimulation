@@ -6,6 +6,22 @@ def grad_potential(x, rule):
       return 0
    elif(rule== 'ornstein_uhlenbeck'):
       return param.theta_ou*x
+   elif(rule=='cir'):
+      return param.theta_cir*x
+   elif(rule=='double_well'):
+      return param.theta_dw*4*x(x**2-1)
+
+
+
+def diffusion_term(x, rule):
+   if(rule== 'simple_brownian'):
+      return param.brownian_diff
+   elif(rule== 'ornstein_uhlenbeck'):
+      return param.ou_diff
+   elif(rule=='cir'):
+      return param.cir_diff*np.sqrt(x)
+   elif(rule=="double_well"):
+      return param.dw_diff
 
 
 def generate_sde(rule, T, x_init, dim, num_trajectories, num_intervals, u, eps):
@@ -19,7 +35,7 @@ def generate_sde(rule, T, x_init, dim, num_trajectories, num_intervals, u, eps):
     sde= [x_init]
     bm = np.random.normal(mean,var,int(num_intervals))
     for i in range(int(num_intervals)):
-      current_value = sde[-1] - grad_potential(sde[-1], rule) * dt + np.sqrt(2) * (u.detach().numpy().item() * dt) + np.sqrt(2*eps) * bm[i]
+      current_value = sde[-1] - grad_potential(sde[-1], rule) * dt + np.sqrt(2) * (u.detach().numpy().item() * dt) + diffusion_term(sde[-1], rule)* np.sqrt(2*eps) * bm[i]
       sde = np.concatenate((sde, [current_value]))
     sdes.append(sde)
   return sdes
